@@ -14,7 +14,7 @@
         <AssemblyName>Soenneker.Phone.Util</AssemblyName>
         <PackageId>Soenneker.Phone.Util</PackageId>
         <PackageTags>phone util phones numbers number telephone phoneutil csharp dotnet c# .net</PackageTags>
-        <Copyright>Copyright © 2025 Jake Soenneker</Copyright>
+        <Copyright>Copyright © 2025-2026 Jake Soenneker</Copyright>
         <Authors>Jake Soenneker</Authors>
         <Company>https://soenneker.com</Company>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
