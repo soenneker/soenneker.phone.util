@@ -1,20 +1,19 @@
-﻿using Soenneker.Phone.Util.Abstract;
-using Soenneker.Tests.FixturedUnit;
-using Xunit;
+using Soenneker.Phone.Util.Abstract;
+using Soenneker.Tests.HostedUnit;
 
 namespace Soenneker.Phone.Util.Tests;
 
-[Collection("Collection")]
-public sealed class PhoneUtilTests : FixturedUnitTest
+[ClassDataSource<Host>(Shared = SharedType.PerTestSession)]
+public sealed class PhoneUtilTests : HostedUnitTest
 {
     private readonly IPhoneUtil _util;
 
-    public PhoneUtilTests(Fixture fixture, ITestOutputHelper output) : base(fixture, output)
+    public PhoneUtilTests(Host host) : base(host)
     {
         _util = Resolve<IPhoneUtil>(true);
     }
 
-    [Fact]
+    [Test]
     public void Default()
     {
 
