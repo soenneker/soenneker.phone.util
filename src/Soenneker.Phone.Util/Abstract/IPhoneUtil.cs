@@ -16,6 +16,10 @@ public interface IPhoneUtil
     /// alpha‑2, e.g. "US", "GB").  International numbers already starting with
     /// ‘+’ are parsed regardless of region.
     /// </summary>
+    /// <param name="phone">Phone for the to e operation.</param>
+    /// <param name="defaultRegion">Default Region for the to e operation.</param>
+    /// <param name="cancellationToken">Token used to cancel the operation.</param>
+    /// <returns>A task whose result is the text returned by to E.</returns>
     /// <exception cref="NumberParseException">The input is not a valid number
     /// for the given region.</exception>
     [Pure]
