@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 
 namespace Soenneker.Phone.Util;
 
-/// <inheritdoc cref="IPhoneUtil"/>
-public sealed class PhoneUtil: IPhoneUtil
+public sealed class PhoneUtil : IPhoneUtil
 {
     private readonly ILibphonenumberUtil _libPhoneNumberUtil;
 
@@ -23,6 +22,9 @@ public sealed class PhoneUtil: IPhoneUtil
 
         PhoneNumber parsed = util.Parse(phone, defaultRegion);
 
-        return util.Format(parsed, PhoneNumberFormat.E164);  // always “+CCxxxxxxxx”
+        if (!util.IsValidNumber(parsed))
+            throw new System.InvalidOperationException("The phone number is not valid for the resolved region.");
+
+        return util.Format(parsed, PhoneNumberFormat.E164);
     }
 }

@@ -6,7 +6,7 @@ using Soenneker.Utils.Libphonenumber.Registrars;
 namespace Soenneker.Phone.Util.Registrars;
 
 /// <summary>
-/// A utility library for phone related operations
+/// Registers the phone-number utility and shared libphonenumber provider.
 /// </summary>
 public static class PhoneUtilRegistrar
 {

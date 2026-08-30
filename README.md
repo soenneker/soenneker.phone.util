@@ -5,7 +5,7 @@
 
 # Soenneker.Phone.Util
 
-A utility library for phone related operations.
+Parse, validate, and format phone numbers as E.164 with libphonenumber.
 
 ## Install
 
@@ -13,35 +13,38 @@ A utility library for phone related operations.
 dotnet add package Soenneker.Phone.Util
 ```
 
-## Quick start
+## Registration
 
 ```csharp
-using Soenneker.Phone.Util.Registrars;
 using Microsoft.Extensions.DependencyInjection;
+using Soenneker.Phone.Util.Registrars;
 
-var services = new ServiceCollection();
-var result = services.AddPhoneUtilAsSingleton();
+services.AddPhoneUtilAsScoped();
 ```
 
-Adds `IPhoneUtil` as a singleton service.
+The scoped registration keeps the lightweight utility scoped while reusing the singleton libphonenumber provider. `AddPhoneUtilAsSingleton()` is also available.
 
-## What you get
+## Usage
 
-- `IPhoneUtil` — A utility library for phone related operations.
-- `PhoneUtilRegistrar` — A utility library for phone related operations.
+Inject `IPhoneUtil`, then pass a national number and its ISO 3166-1 alpha-2 region:
 
-## API at a glance
+```csharp
+using Soenneker.Phone.Util.Abstract;
 
-| API | What it does | Result / important behavior |
-| --- | --- | --- |
-| `IPhoneUtil.ToE164(phone, defaultRegion, cancellationToken)` | Converts any dialable string to strict “+E.164” using libphonenumber. National numbers must supply `defaultRegion` (ISO‑3166 alpha‑2, e.g. "US", "GB"). International numbers already starting with ‘+’ are parsed regardless of region. | A task whose result is the text returned by to E. |
-| `PhoneUtilRegistrar.AddPhoneUtilAsSingleton(services)` | Adds `IPhoneUtil` as a singleton service. | The same service collection, so additional registrations can be chained. |
-| `PhoneUtilRegistrar.AddPhoneUtilAsScoped(services)` | Adds `IPhoneUtil` as a scoped service. | The same service collection, so additional registrations can be chained. |
+string phone = await phoneUtil.ToE164(
+    "(415) 555-2671",
+    "US",
+    cancellationToken);
 
-## Important behavior
+// +14155552671
+```
 
-- `IPhoneUtil.ToE164(phone, defaultRegion, cancellationToken)`: The input is not a valid number for the given region.
+Numbers already written in international form are parsed independently of the default region:
 
-## Practical notes
+```csharp
+string phone = await phoneUtil.ToE164(
+    "+44 20 7946 0958",
+    cancellationToken: cancellationToken);
+```
 
-- Cancellation stops pending work; it does not undo work that has already completed.
+The method validates the parsed number before formatting it. Syntax and region parsing failures throw `NumberParseException`; a number that parses but is not valid for the resolved region throws `InvalidOperationException`. This validates numbering-plan structure, not whether the number is assigned, reachable, or owned by a particular person.
