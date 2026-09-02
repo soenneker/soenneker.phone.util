@@ -1,3 +1,4 @@
+using System.Threading;
 using System;
 using System.Threading.Tasks;
 using Soenneker.Phone.Util.Abstract;
@@ -22,16 +23,16 @@ public sealed class PhoneUtilTests : HostedUnitTest
     }
 
     [Test]
-    public async ValueTask ToE164_validates_and_formats_numbers()
+    public async ValueTask ToE164_validates_and_formats_numbers(CancellationToken cancellationToken)
     {
-        string formatted = await _util.ToE164("(415) 555-2671", "US");
+        string formatted = await _util.ToE164("(415) 555-2671", "US", cancellationToken: cancellationToken);
         await Assert.That(formatted).IsEqualTo("+14155552671");
 
         bool invalidThrown = false;
 
         try
         {
-            await _util.ToE164("123", "US");
+            await _util.ToE164("123", "US", cancellationToken: cancellationToken);
         }
         catch (InvalidOperationException)
         {
