@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Soenneker.Phone.Util;
 
+/// <inheritdoc cref="IPhoneUtil" />
 public sealed class PhoneUtil : IPhoneUtil
 {
     private readonly ILibphonenumberUtil _libPhoneNumberUtil;
